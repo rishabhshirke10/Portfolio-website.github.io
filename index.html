@@ -24,19 +24,59 @@
     html { scroll-behavior: smooth; }
     body {
       background: #020b18;
-      background-size: 400% 400%;
-      animation: gradientShift 18s ease infinite;
       color: var(--text-primary);
       font-family: 'Inter', sans-serif;
       line-height: 1.7;
       overflow-x: hidden;
     }
-    @keyframes gradientShift {
-      0%   { background: radial-gradient(ellipse at 0% 0%,   #0d2a4a 0%, #020b18 50%, #071525 100%); }
-      25%  { background: radial-gradient(ellipse at 100% 0%,  #0a1f3d 0%, #030d1f 50%, #0d2137 100%); }
-      50%  { background: radial-gradient(ellipse at 100% 100%,#112244 0%, #020b18 50%, #071525 100%); }
-      75%  { background: radial-gradient(ellipse at 0% 100%,  #081a35 0%, #030d1f 50%, #0d2137 100%); }
-      100% { background: radial-gradient(ellipse at 0% 0%,   #0d2a4a 0%, #020b18 50%, #071525 100%); }
+
+    /* ── AURORA BACKGROUND ── */
+    .aurora {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.18;
+      animation: floatBlob linear infinite;
+    }
+    .aurora-blob:nth-child(1) {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, #1a4a8a, transparent 70%);
+      top: -100px; left: -150px;
+      animation-duration: 22s;
+    }
+    .aurora-blob:nth-child(2) {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, #0d3b6e, transparent 70%);
+      top: 30%; right: -100px;
+      animation-duration: 28s;
+      animation-direction: reverse;
+    }
+    .aurora-blob:nth-child(3) {
+      width: 450px; height: 450px;
+      background: radial-gradient(circle, #163d6b, transparent 70%);
+      bottom: -80px; left: 30%;
+      animation-duration: 20s;
+    }
+    .aurora-blob:nth-child(4) {
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, #0a2d54, transparent 70%);
+      top: 60%; left: 10%;
+      animation-duration: 25s;
+      animation-direction: reverse;
+    }
+    @keyframes floatBlob {
+      0%   { transform: translate(0px, 0px) scale(1); }
+      25%  { transform: translate(40px, -30px) scale(1.05); }
+      50%  { transform: translate(-20px, 40px) scale(0.95); }
+      75%  { transform: translate(30px, 20px) scale(1.02); }
+      100% { transform: translate(0px, 0px) scale(1); }
     }
 
     /* ── CURSOR GLOW ── */
@@ -365,6 +405,14 @@
   </style>
 </head>
 <body>
+
+<!-- AURORA BACKGROUND -->
+<div class="aurora">
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+  <div class="aurora-blob"></div>
+</div>
 
 <!-- NAV -->
 <nav>
