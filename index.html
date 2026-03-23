@@ -23,11 +23,20 @@
     *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior: smooth; }
     body {
-      background: var(--bg-primary);
+      background: #020b18;
+      background-size: 400% 400%;
+      animation: gradientShift 18s ease infinite;
       color: var(--text-primary);
       font-family: 'Inter', sans-serif;
       line-height: 1.7;
       overflow-x: hidden;
+    }
+    @keyframes gradientShift {
+      0%   { background: radial-gradient(ellipse at 0% 0%,   #0d2a4a 0%, #020b18 50%, #071525 100%); }
+      25%  { background: radial-gradient(ellipse at 100% 0%,  #0a1f3d 0%, #030d1f 50%, #0d2137 100%); }
+      50%  { background: radial-gradient(ellipse at 100% 100%,#112244 0%, #020b18 50%, #071525 100%); }
+      75%  { background: radial-gradient(ellipse at 0% 100%,  #081a35 0%, #030d1f 50%, #0d2137 100%); }
+      100% { background: radial-gradient(ellipse at 0% 0%,   #0d2a4a 0%, #020b18 50%, #071525 100%); }
     }
 
     /* ── CURSOR GLOW ── */
