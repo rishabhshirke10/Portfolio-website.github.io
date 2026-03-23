@@ -89,9 +89,27 @@
       color: var(--text-muted); margin-bottom:1rem;
       min-height:2rem;
     }
-    #typed { color:var(--accent); }
-    .cursor { display:inline-block; width:2px; height:1.2em; background:var(--accent); margin-left:2px; animation:blink 1s infinite; vertical-align:middle; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    #typed {
+      color:var(--accent);
+      position:relative;
+      display:inline-block;
+    }
+    #typed.glitch {
+      animation: glitch 0.4s linear;
+    }
+    @keyframes glitch {
+      0%   { clip-path:inset(0 0 95% 0); transform:translate(-3px,0); color:#ff00c8; }
+      10%  { clip-path:inset(20% 0 60% 0); transform:translate(3px,0); color:var(--accent); }
+      20%  { clip-path:inset(50% 0 30% 0); transform:translate(-3px,0); color:#ff00c8; }
+      30%  { clip-path:inset(10% 0 80% 0); transform:translate(2px,0); color:var(--accent); }
+      40%  { clip-path:inset(70% 0 10% 0); transform:translate(-2px,0); color:#ff00c8; }
+      50%  { clip-path:inset(40% 0 40% 0); transform:translate(3px,0); color:var(--accent); }
+      60%  { clip-path:inset(80% 0 5% 0);  transform:translate(-3px,0); color:#ff00c8; }
+      70%  { clip-path:inset(5% 0 70% 0);  transform:translate(2px,0); color:var(--accent); }
+      80%  { clip-path:inset(30% 0 50% 0); transform:translate(-2px,0); color:#ff00c8; }
+      90%  { clip-path:inset(60% 0 20% 0); transform:translate(3px,0); color:var(--accent); }
+      100% { clip-path:inset(0 0 0 0);     transform:translate(0,0);   color:var(--accent); }
+    }
     .hero-desc {
       color:var(--text-muted); font-size:1rem;
       max-width:560px; margin-bottom:2rem;
@@ -770,21 +788,37 @@
   const roles = [
     'Python Backend Developer',
     'FastAPI & Django Engineer',
-    'Microservices Architect',
+    'Microservices Developer',
     'Gen AI & Agentic AI Builder',
     'AWS & GCP Solution Architect',
     'LangChain & LangGraph Dev'
   ];
-  let rIdx = 0, cIdx = 0, deleting = false;
+  let rIdx = 0;
   const typedEl = document.getElementById('typed');
-  function type() {
-    const current = roles[rIdx];
-    typedEl.textContent = deleting ? current.slice(0, cIdx--) : current.slice(0, cIdx++);
-    if (!deleting && cIdx > current.length) { deleting = true; setTimeout(type, 1800); return; }
-    if (deleting && cIdx < 0) { deleting = false; rIdx = (rIdx + 1) % roles.length; }
-    setTimeout(type, deleting ? 40 : 80);
+  const glitchChars = '!<>-_\\/[]{}—=+*^?#@$%&';
+  function glitchReveal(target) {
+    let iteration = 0;
+    const total = 12;
+    typedEl.classList.add('glitch');
+    setTimeout(() => typedEl.classList.remove('glitch'), 400);
+    const interval = setInterval(() => {
+      typedEl.textContent = target.split('').map((char, i) => {
+        if (i < iteration) return target[i];
+        return glitchChars[Math.floor(Math.random() * glitchChars.length)];
+      }).join('');
+      iteration += target.length / total;
+      if (iteration >= target.length) {
+        typedEl.textContent = target;
+        clearInterval(interval);
+      }
+    }, 40);
   }
-  type();
+  function cycleRoles() {
+    glitchReveal(roles[rIdx]);
+    rIdx = (rIdx + 1) % roles.length;
+    setTimeout(cycleRoles, 2800);
+  }
+  cycleRoles();
 
   // Particle canvas
   const canvas = document.getElementById('particleCanvas');
